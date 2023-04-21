@@ -1,0 +1,3 @@
+diffusers==0.15.1
+torch==2.0.0
+python-dotenv==1.0.0
