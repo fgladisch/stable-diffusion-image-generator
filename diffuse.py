@@ -17,6 +17,11 @@ negative_prompt_text = os.getenv(
 num_images = 4
 output_folder = "output"
 model_id = "stabilityai/stable-diffusion-2-1"
+date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+prompt_folder = f"{output_folder}/{date}"
+prompt_info = f'prompt: {prompt_text}\nnegative prompt: {negative_prompt_text}'
+prompt = [prompt_text] * num_images
+negative_prompt = [negative_prompt_text] * num_images
 
 
 def image_grid(imgs, rows, cols):
@@ -32,23 +37,15 @@ pipe = DiffusionPipeline.from_pretrained(model_id)
 pipe = pipe.to("mps")
 pipe.enable_attention_slicing()
 
-date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-prompt_folder = f"{output_folder}/{date}"
+output = pipe(prompt=prompt, negative_prompt=negative_prompt)
 
 if not os.path.exists(output_folder):
     os.mkdir(output_folder)
 
 os.mkdir(prompt_folder)
 
-prompt_info = f'prompt: {prompt_text}\nnegative prompt: {negative_prompt_text}'
-
 with open(f'{prompt_folder}/prompt.txt', 'w') as f:
     f.write(prompt_info)
-
-prompt = [prompt_text] * num_images
-negative_prompt = [negative_prompt_text] * num_images
-
-output = pipe(prompt=prompt, negative_prompt=negative_prompt)
 
 for i in range(len(output.images)):
     output.images[i].save(f"{prompt_folder}/image_{i}.png")
