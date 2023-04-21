@@ -1,6 +1,6 @@
 # Stable Diffusion Image Generator
 
-Generate multiple images using Stable Diffusion 2.1 with a prompt and negativate prompt.
+Generate multiple images using Stable Diffusion 2.1 with a prompt and negative prompt.
 
 ## Usage
 
